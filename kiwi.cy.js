@@ -50,5 +50,54 @@ describe('kiwi.cy.js', () => {
     cy.contains('Saved jobs').click({force: true})
     cy.contains('Office On-Site Support')
 
+    //opening "read more"
+    cy.visit('https://jobs.kiwi.com/locations/')
+    cy.contains('Read more').click()
+    cy.contains('Silicon Valley')
+ })
+
+
+  it('Teams', () => {
+    cy.visit('https://jobs.kiwi.com/teams/')
+
+    // removing Cookies banner
+    cy.get('#cookiebanner')
+     .contains('Allow all cookies').click()
+
+    //open Customer Service and find RTA
+    cy.contains('Customer Service').click()
+    cy.get('.input-field--large') //class="input-field input-field--icon input-field--large"
+        .click()
+        .type('Realtime Analyst{enter}')
+    cy.contains('Realtime Analyst').click()
+
+    // Saving RTA's into Saved jobs
+    cy.get('.b-info .kw-ga-job-save').click()
+    cy.contains('Saved jobs').click({force: true})
+    cy.contains('Realtime Analyst')
   })
+   it('Jobs', () => {
+     cy.visit('https://jobs.kiwi.com/jobs/')
+     cy.get('#cookiebanner')
+         .contains('Allow all cookies').click()
+
+     //filters positions only from Brno
+     cy.get('.inp-items--filter .inp-items__item') //class="inp-items inp-items--filter" and class="inp-items__item"
+         .contains('Brno')
+         .click()
+     cy.wait(1000) // waiting for filter to finish loading Brno positions
+     cy.get('.paging__next').click() // clicking to "next page arrow"
+     cy.get('.b-job__bottom .b-job__definition').contains('Brno')   // checking that positions are only for Brno (atm checks only first position)
+
+     // testing filter when at first writing title of position and then selecting locality => looks ok
+     cy.visit('https://jobs.kiwi.com/jobs/')
+     cy.get('.input-field--large')
+         .click()
+        .type('Junior{enter}')
+
+     cy.get('.inp-items--filter .inp-items__item')
+         .contains('Brno')
+         .click()
+     cy.wait(1000)
+   })
 })
