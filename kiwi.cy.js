@@ -4,11 +4,17 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
 
+Cypress.Commands.add('cookie_remover', () => {
+  cy.get('#cookiebanner')
+     .contains('Allow all cookies').click()
+})
+
 describe('kiwi.cy.js', () => {
   it('jobs.kiwi.com', () => {
     cy.visit('https://jobs.kiwi.com/')
 
-    cy.contains('Allow all cookies').click({force:true})
+    //cy.contains('Allow all cookies').click({force:true})
+    cy.cookie_remover()
 
     //should check that correct page is loaded
     cy.url().should('include', 'kiwi.com')
@@ -25,7 +31,9 @@ describe('kiwi.cy.js', () => {
 
   it('Locations', () => {
     cy.contains('Locations').click({force:true})
-    cy.contains('Allow all cookies').click({force:true})
+    //cy.contains('Allow all cookies').click({force:true})
+    cy.cookie_remover()
+
 
     // check that correct page is loaded
     cy.url().should('include','loc')
@@ -61,8 +69,10 @@ describe('kiwi.cy.js', () => {
     cy.visit('https://jobs.kiwi.com/teams/')
 
     // removing Cookies banner
-    cy.get('#cookiebanner')
-     .contains('Allow all cookies').click()
+    // cy.get('#cookiebanner')
+    //  .contains('Allow all cookies').click()
+    cy.cookie_remover()
+
 
     //open Customer Service and find RTA
     cy.contains('Customer Service').click()
@@ -80,8 +90,9 @@ describe('kiwi.cy.js', () => {
 
    it('Jobs', () => {
      cy.visit('https://jobs.kiwi.com/jobs/')
-     cy.get('#cookiebanner')
-         .contains('Allow all cookies').click()
+     // cy.get('#cookiebanner')
+     //     .contains('Allow all cookies').click()
+    cy.cookie_remover()
 
      //filters positions only from Brno
      cy.get('.inp-items--filter .inp-items__item') //class="inp-items inp-items--filter" and class="inp-items__item"
@@ -103,8 +114,9 @@ describe('kiwi.cy.js', () => {
 
   it('Jobs - selecting location first', () => {
     cy.visit('https://jobs.kiwi.com/jobs/')
-    cy.get('#cookiebanner')
-         .contains('Allow all cookies').click()
+    // cy.get('#cookiebanner')
+    //      .contains('Allow all cookies').click()
+    cy.cookie_remover()
 
     //selecting PRG as location
     cy.get('.inp-items--filter .inp-items__item') //class="inp-items inp-items--filter" and class="inp-items__item"
@@ -127,8 +139,9 @@ describe('kiwi.cy.js', () => {
   it('Teams - test drop down menu', () => {
     cy.visit('https://jobs.kiwi.com/teams/')
 
-    cy.get('#cookiebanner')
-     .contains('Allow all cookies').click()
+    // cy.get('#cookiebanner')
+    //  .contains('Allow all cookies').click()
+    cy.cookie_remover()
 
   //opening Facilities team positions and clicking on "Scroll down"
     cy.contains('Facilities').click()
@@ -144,8 +157,9 @@ describe('kiwi.cy.js', () => {
 
     //checking that URL is correct, accepting cookies
     cy.url().should('include', 'hire')
-    cy.get('#cookiebanner')
-     .contains('Allow all cookies').click()
+    // cy.get('#cookiebanner')
+    //  .contains('Allow all cookies').click()
+    cy.cookie_remover()
 
   })
   it('FAQ', () => {
@@ -154,6 +168,7 @@ describe('kiwi.cy.js', () => {
     //removing cookies banner if its there
     // cy.get('#cookiebanner')
     //  .contains('Allow all cookies').click()
+    cy.cookie_remover()
 
     //opening all 5 FAQ at once
     cy.get('.kw-ga-faq .icon-svg--plus').click({ multiple: true })
@@ -162,8 +177,9 @@ describe('kiwi.cy.js', () => {
   it('Life at Kiwi.com', () => {
     cy.visit('https://jobs.kiwi.com/blog/')
 
-    cy.get('#cookiebanner')
-      .contains('Allow all cookies').click()
+    // cy.get('#cookiebanner')
+    //   .contains('Allow all cookies').click()
+    cy.cookie_remover()
 
     cy.contains('Dogs').click()
     // cy.get('#cookiebanner')   removing cookies banner if its there
